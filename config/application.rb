@@ -16,6 +16,7 @@ require "rails/test_unit/railtie"
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+
 module GithubSlackBot
   class Application < Rails::Application
     # Settings in config/environments/* take precedence over those specified here.
@@ -26,5 +27,6 @@ module GithubSlackBot
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
     config.api_only = true
+    config.autoload_paths += %W(#{config.root}/lib)
   end
 end
