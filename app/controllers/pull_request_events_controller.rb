@@ -4,7 +4,6 @@ require 'json'
 class PullRequestEventsController < ApplicationController
 
   def index
-    render "Hello World"
   end
 
   def create
@@ -35,9 +34,6 @@ class PullRequestEventsController < ApplicationController
       uri = URI(url)
       response = Net::HTTP.get(uri)
       labels = JSON.parse(response).map {|label| label['name']}
-
-      #TODO: to get labels, I need to GET the related issue
-      #TODO: to get patch details, I need to parse the patch page
 
       slackbot = SlackBot.new
 
