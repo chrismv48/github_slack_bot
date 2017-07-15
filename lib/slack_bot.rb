@@ -3,13 +3,21 @@ require 'slack-ruby-client'
 class SlackBot
   def initialize
     Slack.configure do |config|
-      config.token = 'xoxb-195025932757-iGPkE0qK8eIZcwkjUI2HWvpc'
+      config.token = ENV["SLACK_API_TOKEN"]
       fail 'Missing ENV[SLACK_API_TOKEN]!' unless config.token
     end
 
-    @client = Slack::Web::Client.new
-
-    @client.auth_test
+    @client = Slack::RealTime::Client.new
+    @client.on :message do |data|
+      case data.text
+        when 'bot hi' then
+          client.message channel: data.channel, text: "Hi <@#{data.user}>!"
+        when /^bot/ then
+          client.message channel: data.channel, text: "Sorry <@#{data.user}>, what?"
+      end
+    end
+    # @client.auth_test
+    @client.start!
   end
 
   def build_message(options={})
@@ -35,8 +43,7 @@ class SlackBot
   end
 end
 
-
-
+slackbot = SlackBot.new
 
 
 
