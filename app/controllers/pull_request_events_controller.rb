@@ -1,5 +1,6 @@
 require 'net/http'
 require 'json'
+require 'json'
 
 class PullRequestEventsController < ApplicationController
 
