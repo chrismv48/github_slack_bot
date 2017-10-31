@@ -3,8 +3,7 @@ require 'slack-ruby-client'
 class SlackBot
   def initialize
     Slack.configure do |config|
-      # config.token = 'xoxb-195025932757-jlbEhsZGGSzsSdSFEhHdzgHF'
-      config.token = 'xoxb-3580201791-rcLXqa9qMInUvoPijOJSq8Ia'
+      config.token = ENV['SLACK_API_TOKEN']
       fail 'Missing ENV[SLACK_API_TOKEN]!' unless config.token
     end
 

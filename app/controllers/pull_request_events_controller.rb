@@ -3,6 +3,8 @@ require 'json'
 
 class PullRequestEventsController < ApplicationController
 
+  before_action :validate_request
+
   def index
   end
 
@@ -53,6 +55,16 @@ class PullRequestEventsController < ApplicationController
 
       slackbot.post_to_channel
     end
+  end
+
+  private
+
+  # authenticates using github secret token ala https://developer.github.com/webhooks/securing/
+  def validate_request
+    payload_body = request.body.read
+    signature = 'sha1=' + OpenSSL::HMAC.hexdigest(OpenSSL::Digest.new('sha1'), ENV['GITHUB_TOKEN'], payload_body)
+    request_signature = request.headers['X-Hub-Signature']
+    render status: :unauthorized unless Rack::Utils.secure_compare(signature, request_signature)
   end
 
 end
