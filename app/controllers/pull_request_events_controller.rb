@@ -8,7 +8,7 @@ class PullRequestEventsController < ApplicationController
 
   def create
     # TODO: filter by team
-    pull_request = params[:pull_request]
+    pull_request = params[:pull_request] || params[:payload][:pull_request]  # seems like in some environments the response is rooted in a payload key
     state = pull_request[:state]
     if state == 'open'
       pr_id = pull_request[:id]
